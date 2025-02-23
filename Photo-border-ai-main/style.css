@@ -1,0 +1,145 @@
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+header {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    margin: 80px auto;
+    max-width: 600px;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.upload-section {
+    margin: 20px 0;
+}
+
+input[type="file"] {
+    display: block;
+    margin: 15px auto;
+    padding: 10px;
+    border: 2px dashed #007BFF;
+    border-radius: 8px;
+    background: #f4f8ff;
+    cursor: pointer;
+}
+
+input[type="file"]:hover {
+    background: #e8f0ff;
+    border-color: #0056b3;
+}
+
+.preview {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.border-controls {
+    margin: 20px 0;
+}
+
+input[type="number"] {
+    width: 80px;
+    margin: 10px 5px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: #007BFF;
+}
+
+button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+    margin: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:active {
+    background-color: #003f7f;
+}
+
+footer {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 0;
+    font-size: 14px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    header {
+        font-size: 20px;
+        padding: 15px;
+    }
+
+    button {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    input[type="number"] {
+        width: 70px;
+        font-size: 14px;
+    }
+}
+/* jo new button ha uska css ha  */
+#dhruvi {
+    background-color: rgb(255, 191, 0);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block; /* Ensures it behaves like a block element */
+    margin-left: 0; /* Aligns button to the left */
+    margin-top: 20px; /* Adds spacing from the top */
+  }
+
+  #dhruvi:hover {
+    background-color: darkred;
+  }

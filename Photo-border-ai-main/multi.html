@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-adsense-account" content="ca-pub-7441892023366950">
+    <title>Border Maker</title>
+    <link rel="icon" href="Screenshot 2025-02-07 235920.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <link rel="stylesheet" href="multiborder.css">
+    <style>
+        /* Navbar Styles */
+        .navbar {
+            width: 100%;
+            background: linear-gradient(to right, #764ba2, #667eea);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            display: inline;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            padding: 10px 15px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar ul li a:hover {
+            background-color: white;
+            color: #764ba2;
+            border-radius: 5px;
+        }
+
+        /* Responsive Navbar */
+        @media (max-width: 768px) {
+            .navbar ul {
+                flex-direction: column;
+                background: linear-gradient(to right, #667eea, #764ba2);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                display: none;
+            }
+
+            .navbar ul.show {
+                display: flex;
+            }
+
+            .navbar .menu-toggle {
+                display: block;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+
+            .navbar ul li {
+                text-align: center;
+                padding: 10px 0;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .navbar .menu-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">RAJA VISHWAKARMA</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+        
+        </ul>
+        <div class="menu-toggle">☰</div>
+    </nav>
+
+    <!-- Main Content -->
+
+    <div id="controls">
+        <div class="controls">
+            <input type="file" id="file-input" multiple accept="image/*">
+            <label for="borderWidth">Border Size</label>
+            <input type="number" id="borderWidth" value="4" min="0">
+            <label for="borderColor">Color:</label>
+            <input type="color" id="borderColor" value="#000000">
+            <button id="apply-border">Apply Border</button>
+            <button id="download-all">Download</button>
+        </div>
+        <div class="container" id="preview-container">
+            <!-- Images preview will appear here -->
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const applyBorderButton = document.getElementById('apply-border');
+        const downloadAllButton = document.getElementById('download-all');
+        const previewContainer = document.getElementById('preview-container');
+        const uploadedImages = [];
+
+        // Event: Toggle Navbar for Mobile
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navbarUl = document.querySelector('.navbar ul');
+
+        menuToggle.addEventListener('click', () => {
+            navbarUl.classList.toggle('show');
+        });
+
+        // Event: Load Images
+        fileInput.addEventListener('change', function () {
+            const files = Array.from(this.files);
+            previewContainer.innerHTML = ''; // Clear previous previews
+            uploadedImages.length = 0; // Reset uploaded images array
+
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.classList.add('image-preview');
+                    imgDiv.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview Image">
+                        <p>${file.name}</p>
+                    `;
+                    previewContainer.appendChild(imgDiv);
+                    uploadedImages.push({ name: file.name, src: e.target.result });
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // Event: Apply Border
+        applyBorderButton.addEventListener('click', function () {
+            const borderWidth = parseInt(document.getElementById('borderWidth').value, 10);
+            const borderColor = document.getElementById('borderColor').value;
+
+            const images = document.querySelectorAll('.image-preview img');
+            if (images.length === 0) {
+                alert('Please upload image!');
+                return;
+            }
+
+            images.forEach(image => {
+                image.style.border = `${borderWidth}px solid ${borderColor}`;
+            });
+        });
+
+        // Event: Download All Images
+        downloadAllButton.addEventListener('click', async function () {
+            if (uploadedImages.length === 0) {
+                alert('Please upload image before downloading!');
+                return;
+            }
+
+            const borderWidth = parseInt(document.getElementById('borderWidth').value, 10);
+            const borderColor = document.getElementById('borderColor').value;
+
+            const zip = new JSZip();
+
+            for (const img of uploadedImages) {
+                // Create a canvas to apply the border
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const image = new Image();
+
+                await new Promise(resolve => {
+                    image.onload = function () {
+                        // Set canvas size
+                        canvas.width = image.naturalWidth + 2 * borderWidth;
+                        canvas.height = image.naturalHeight + 2 * borderWidth;
+
+                        // Draw the border
+                        ctx.fillStyle = borderColor;
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                        // Draw the image
+                        ctx.drawImage(image, borderWidth, borderWidth);
+
+                        // Add the image to the ZIP
+                        const dataUrl = canvas.toDataURL('image/png');
+                        zip.file(`bordered_${img.name}`, dataUrl.split(',')[1], { base64: true });
+
+                        resolve();
+                    };
+                    image.src = img.src;
+                });
+            }
+
+            // Generate the ZIP file and trigger download
+            zip.generateAsync({ type: 'blob' }).then(function (content) {
+                saveAs(content, 'All_Image.zip');
+            });
+        });
+
+    
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7441892023366950"
+    crossorigin="anonymous"></script>
+</body>
+</html>

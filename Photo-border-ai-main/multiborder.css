@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+input, button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+}
+button {
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: #45a049;
+}
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    width: 90%;
+    max-width: 1200px;
+}
+.image-preview {
+    position: relative;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.image-preview img {
+    max-width: 100%;
+    display: block;
+    border-radius: 4px;
+}
+.image-preview p {
+    font-size: 0.8rem;
+    color: #333;
+    margin-top: 8px;
+    text-align: center;
+}
+/* jo new button ha uska css ha  */
+/* Updated styles for the button container */
+.button-container {
+    width: 100%; /* Ensure it spans the full width */
+    display: flex; /* Use flexbox for alignment */
+    justify-content: flex-start; /* Align content to the left */
+    margin-bottom: 20px; /* Add spacing below */
+}
+
